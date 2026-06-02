@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Грани Сыктывкар — Индивидуальный план тренировок</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Natasha';
+            src: url('https://db.onlinewebfonts.com/t/8e3c2f6e8b2d9f2a0d9c5f5b7e6a4d3c.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #D4AF37;
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --border-light: rgba(255,255,255,0.08);
+            --text-secondary: #a0a0a0;
+            --error: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header {
+            padding: 16px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-img {
+            height: 48px;
+            width: auto;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.2s;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .btn {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 32px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .btn:hover {
+            background: var(--primary);
+            color: #0a0a0a;
+        }
+        .btn-solid {
+            background: var(--primary);
+            color: #0a0a0a;
+            border: none;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .btn-solid:hover {
+            background: #fff;
+            color: #0a0a0a;
+        }
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+            border: none;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .btn-success:hover {
+            background: #27ae60;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.45;
+            filter: brightness(0.6);
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.85) 100%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .hero-badge {
+            display: inline-block;
+            border: 1px solid var(--border-light);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--primary);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 80px 0;
+        }
+        .stat-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+        .stat-num {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .stat-item div:last-child {
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .section-title {
+            font-size: 48px;
+            margin-bottom: 40px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 60px 0;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            padding: 32px;
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+        }
+        .feature-card i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .why-training-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 60px 50px;
+            margin: 60px 0;
+            text-align: center;
+        }
+        .why-training-block h3 {
+            font-size: 40px;
+            margin-bottom: 40px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .why-training-block h3 span {
+            color: var(--primary);
+        }
+        .why-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .why-list li {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 18px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .why-list li:nth-child(even) {
+            transform: translateX(40px);
+            border-left: 1px solid var(--border-light);
+        }
+        .why-list li.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .why-list li .icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .why-list li:hover .icon-circle {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--primary);
+        }
+        .why-list li i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .includes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .include-card {
+            background: var(--bg-card);
+            padding: 40px 24px;
+            border: 1px solid var(--border-light);
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .include-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-6px);
+        }
+        .include-num {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .include-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .include-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .includes-detail-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px 30px;
+            margin: 30px 0 50px;
+        }
+        .includes-detail-list .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 16px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .list-item i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .steps-container {
+            display: flex;
+            margin: 60px 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+        }
+        .step-tab {
+            flex: 1;
+            padding: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 4px solid transparent;
+            text-align: center;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .step-tab.active {
+            border-bottom-color: var(--primary);
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .step-tab .num {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .step-content {
+            padding: 40px;
+            background: #0f0f0f;
+        }
+        .step-content h3 {
+            margin-bottom: 8px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .step-content p {
+            color: var(--text-secondary);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 40px 0 80px;
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border: 1px solid var(--border-light);
+        }
+        .testimonial-card .quote {
+            font-size: 18px;
+            margin-bottom: 24px;
+            font-style: italic;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .testimonial-author div {
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            padding: 24px;
+            border: 1px solid var(--border-light);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .faq-q {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .pricing-center {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .price-card {
+            background: var(--bg-card);
+            padding: 40px 48px;
+            border: 1px solid var(--border-light);
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+        }
+        .price-card.featured {
+            border-color: var(--primary);
+            background: #1a1a1a;
+        }
+        .price-card h3 {
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .price-card p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #0a0a0a;
+            border: 1px solid var(--border-light);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 8px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .email-input:focus {
+            border-color: var(--primary);
+        }
+        .email-input.error {
+            border-color: var(--error);
+            animation: shake 0.4s ease;
+        }
+        .email-input.success {
+            border-color: var(--success);
+        }
+        .email-input::placeholder {
+            color: #555;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .email-error-msg {
+            display: none;
+            color: var(--error);
+            font-size: 12px;
+            text-align: left;
+            margin-bottom: 12px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .email-error-msg.visible {
+            display: block;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-4px); }
+        }
+
+        .payment-notice {
+            display: none;
+            background: rgba(46, 204, 113, 0.1);
+            border: 1px solid var(--success);
+            padding: 20px;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .payment-notice.visible {
+            display: block;
+        }
+        .payment-notice i {
+            font-size: 40px;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+        .payment-notice p {
+            color: #fff;
+            margin-bottom: 16px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .payment-notice .email-sent {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .phone-preview-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 60px 0;
+        }
+        .phone-frame {
+            width: 280px;
+            height: 560px;
+            background: #1a1a1a;
+            border-radius: 36px;
+            border: 3px solid #333;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 24px;
+            background: #0a0a0a;
+            border-radius: 0 0 16px 16px;
+            z-index: 2;
+        }
+        .phone-screen {
+            height: 100%;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            padding-top: 36px;
+        }
+        .phone-screen::-webkit-scrollbar {
+            display: none;
+        }
+        .phone-slide {
+            scroll-snap-align: start;
+            height: calc(100% - 36px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 12px;
+        }
+        .phone-slide-img {
+            width: 100%;
+            height: 75%;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #222;
+        }
+        .phone-slide h4 {
+            font-size: 16px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .phone-slide p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 0 4px;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        .phone-dots {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+        .phone-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #555;
+            transition: background 0.3s;
+        }
+        .phone-dot.active {
+            background: var(--primary);
+        }
+        .phone-hint {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #555;
+            font-size: 11px;
+            animation: bounce 2s infinite;
+            pointer-events: none;
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-light);
+            margin-top: 80px;
+            color: var(--text-secondary);
+        }
+        footer p, footer a {
+            font-family: 'Natasha', 'Montserrat', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .features-grid, .testimonial-grid, .includes-grid { grid-template-columns: 1fr; }
+            .stats-grid, .why-list, .includes-detail-list { grid-template-columns: 1fr; }
+            .why-list li:nth-child(even) {
+                border-left: none;
+            }
+            .nav-links { display: none; }
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.15), transparent 70%);
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<header>
+    <div class="container">
+        <nav>
+            <a href="https://grani.fitness/">
+                <img src="https://grani.fitness/themes/img/logo.png" alt="Грани" class="logo-img">
+            </a>
+            <div class="nav-links">
+                <a href="https://grani.fitness/">Главная</a>
+                <a href="https://vk.com/granifitness">ВКонтакте</a>
+            </div>
+            <a href="#pricing-section" class="btn" id="headerBuyBtn">4 000₽</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <img src="https://avatars.mds.yandex.net/i?id=c6be1efcc518ec2c43254bc74f7ef668_l-10207670-images-thumbs&n=13" alt="Зал Грани Сыктывкар" class="hero-bg" loading="eager">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content reveal active">
+                <div class="hero-badge"><i class="fas fa-flask"></i> Научный подход к тренировкам</div>
+                <h1>Индивидуальный план тренировок</h1>
+                <p>Добейтесь результатов, о которых вы мечтали. Персональная программа, составленная под ваши цели и особенности.</p>
+                <a href="https://vk.com/granifitness" class="btn" style="margin-right: 16px;">Группа ВК</a>
+                <a href="#how-it-looks" class="btn">Как это выглядит?</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <div class="stat-num">12+</div>
+                <div>лет опыта тренерского состава</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">2000+</div>
+                <div>довольных клиентов</div>
+            </div>
+        </div>
+
+        <div class="why-training-block reveal">
+            <h3>Для чего нужны <span>тренировки?</span></h3>
+            <ul class="why-list" id="whyList">
+                <li>
+                    <span class="icon-circle"><i class="fas fa-heart"></i></span>
+                    Укрепление сердечно-сосудистой системы
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-brain"></i></span>
+                    Снижение стресса и улучшение настроения
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-bolt"></i></span>
+                    Повышение энергии и работоспособности
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-weight-scale"></i></span>
+                    Контроль веса и коррекция фигуры
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-shield"></i></span>
+                    Укрепление иммунитета
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-moon"></i></span>
+                    Улучшение качества сна
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-bone"></i></span>
+                    Укрепление костей и суставов
+                </li>
+                <li>
+                    <span class="icon-circle"><i class="fas fa-fire"></i></span>
+                    Ускорение метаболизма
+                </li>
+            </ul>
+        </div>
+
+        <div style="margin: 100px 0;">
+            <h2 class="section-title reveal">Что нужно знать<br><span>о клубе «Грани»?</span></h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;" class="reveal">
+                <div>
+                    <p style="font-size: 20px; color: var(--text-secondary); margin-bottom: 24px; font-family: 'Natasha', 'Montserrat', sans-serif;">
+                        «Грани» Сыктывкар — это пространство, где наука встречается с практикой. Мы не продаем «просто программу». Мы создаем условия для трансформации вашего тела.
+                    </p>
+                    <p style="color: #fff; font-weight: 500; font-family: 'Natasha', 'Montserrat', sans-serif;">
+                        Только натуральный тренинг. Адекватный подход к нагрузкам, построенный на научных фактах и опыте наших инструкторов.
+                    </p>
+                </div>
+                <div style="background: var(--bg-card); padding: 30px; border-left: 4px solid var(--primary);">
+                    <i class="fas fa-quote-right" style="color: var(--primary); font-size: 30px; opacity: 0.5;"></i>
+                    <p style="font-size: 18px; margin-top: 16px; font-family: 'Natasha', 'Montserrat', sans-serif;">Наша команда будет с вами с момента первого шага в клуб до достижения заветной цели — и даже после.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <i class="fas fa-user-check"></i>
+                <h3>Индивидуально</h3>
+                <p>Никаких шаблонных программ. План тренировок и питания составляется персонально под ваши цели.</p>
+            </div>
+            <div class="feature-card reveal">
+                <i class="fas fa-search"></i>
+                <h3>Подробнее не найдешь</h3>
+                <p>Персональный тренер в вашем кармане. Все нюансы техники, отдыха и периодизации расписаны детально.</p>
+            </div>
+            <div class="feature-card reveal">
+                <i class="fas fa-sync-alt"></i>
+                <h3>Тренировки по подписке</h3>
+                <p>Ежемесячное обновление программы. Новые циклы, новые упражнения — без привыкания и плато.</p>
+            </div>
+            <div class="feature-card reveal">
+                <i class="fas fa-microscope"></i>
+                <h3>Научно подтверждено</h3>
+                <p>Методики основаны на свежих исследованиях в области спортивной медицины и нутрициологии.</p>
+            </div>
+        </div>
+
+        <div style="margin: 80px 0;">
+            <h2 class="section-title reveal">Что <span>входит?</span></h2>
+            <p class="reveal" style="margin-bottom: 20px; color: var(--text-secondary); font-family: 'Natasha', 'Montserrat', sans-serif;">Мы создаем план достижения желаемого тела персонально для каждого</p>
+            
+            <div class="includes-grid reveal">
+                <div class="include-card">
+                    <div class="include-num">1</div>
+                    <h3>Рекомендации по питанию</h3>
+                    <p>Распределение БЖУ, примеры рационов, правила составления меню под вашу цель</p>
+                </div>
+                <div class="include-card">
+                    <div class="include-num">2</div>
+                    <h3>Рекомендации по бадам</h3>
+                    <p>Какие добавки принимать, дозировки и как правильно комбинировать для максимального эффекта</p>
+                </div>
+                <div class="include-card">
+                    <div class="include-num">3</div>
+                    <h3>Видеотека упражнений</h3>
+                    <p>Ссылки на видео с техникой выполнения всех упражнений из вашей программы</p>
+                </div>
+            </div>
+
+            <div class="includes-detail-list reveal">
+                <div class="list-item"><i class="fas fa-check-circle"></i> Расписанные тренировочные сплиты с периодизацией</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Время отдыха между подходами для каждого упражнения</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Отказные и неотказные подходы</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Разнообразие упражнений от недели к неделе</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Рекомендации по режиму дня и восстановлению</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Ответы на часто задаваемые вопросы</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Распределение БЖУ для каждого приема пищи</div>
+                <div class="list-item"><i class="fas fa-check-circle"></i> Правила приема спортивного питания</div>
+            </div>
+        </div>
+
+        <div style="margin: 80px 0;" id="how-it-looks">
+            <h2 class="section-title reveal">Как это <span>выглядит?</span></h2>
+            <div class="phone-preview-wrapper reveal">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen" id="phoneScreen">
+                        <div class="phone-slide">
+                            <img src="https://sun9-42.userapi.com/s/v1/ig2/MUZ6I_f0ncujZ2EtnYLy1j9KR3CTxH7cQuZdKx4kvBQ8fbjBR8reIOiMP4hogPMb0Fr53Bfp0tmNN07NvKArtQe2.jpg?quality=95&as=32x48,48x73,72x109,108x163,160x242,240x363,360x544,480x725,540x816,640x967,720x1088,1080x1632&from=bu&cs=1080x0" alt="Скриншот программы 1" class="phone-slide-img" loading="lazy">
+                            <h4>План тренировок</h4>
+                            <p>Упражнения с подходами и временем отдыха</p>
+                        </div>
+                        <div class="phone-slide">
+                            <img src="https://sun9-61.userapi.com/s/v1/ig2/96oQvN86r-5ByYJuR0ydrXNWSA5sMFAdnSbTzi8Z74QrQOWURxmavCWtEyJzxRjUDbJGYz_ptZGmVtsk0Hz3i7bO.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x221,240x332,360x497,480x663,540x746,640x884,720x995,1080x1492&from=bu&cs=1080x0" alt="Скриншот программы 2" class="phone-slide-img" loading="lazy">
+                            <h4>План питания</h4>
+                            <p>БЖУ и примеры рационов</p>
+                        </div>
+                        <div class="phone-slide">
+                            <img src="https://sun9-42.userapi.com/s/v1/ig2/gizwWsmyWXzoeG1wH602BPeJXSqPg9oLz76kci1xT2Zbxaio2RRpMXkQviyaQ3Qak4VbroZBwNklysz8YuKXAe62.jpg?quality=95&as=32x44,48x66,72x100,108x149,160x221,240x332,360x498,480x664,540x747,640x885,720x996,1080x1494&from=bu&cs=1080x0" alt="Скриншот программы 3" class="phone-slide-img" loading="lazy">
+                            <h4>Видеотехника</h4>
+                            <p>Правильное выполнение упражнений</p>
+                        </div>
+                        <div class="phone-slide">
+                            <img src="https://sun9-1.userapi.com/s/v1/ig2/8vJUtQisPGqAcBFMf1yyBiIXLQr0_RjV1rMo30MnunR4fnY6MS3f8ZrwsJsf7xYKsUXIXDBX8rlQLl1JsF-epn3R.jpg?quality=95&as=32x45,48x67,72x100,108x151,160x223,240x335,360x502,480x670,540x753,640x893,720x1005,1080x1507&from=bu&cs=1080x0" alt="Скриншот программы 4" class="phone-slide-img" loading="lazy">
+                            <h4>Прогресс</h4>
+                            <p>Отслеживание результатов</p>
+                        </div>
+                    </div>
+                    <div class="phone-dots" id="phoneDots">
+                        <span class="phone-dot active"></span>
+                        <span class="phone-dot"></span>
+                        <span class="phone-dot"></span>
+                        <span class="phone-dot"></span>
+                    </div>
+                    <div class="phone-hint">листай вниз</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <h2 class="section-title">Как <span>начать?</span></h2>
+            <div class="steps-container">
+                <div class="step-tab active" data-step="1"><span class="num">1</span><br>Оплата</div>
+                <div class="step-tab" data-step="2"><span class="num">2</span><br>Анкета</div>
+                <div class="step-tab" data-step="3"><span class="num">3</span><br>Подготовка</div>
+                <div class="step-tab" data-step="4"><span class="num">4</span><br>Тренируйся</div>
+            </div>
+            <div class="step-content" id="stepContent">
+                <h3>Сделайте оплату на сайте</h3>
+                <p>Перейдите по ссылке онлайн оплаты. Выберите тариф и завершите платеж.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-grid reveal" style="margin-top: 80px;">
+            <h2 class="section-title" style="grid-column: 1/-1;">Истории <span>успеха</span></h2>
+            <div class="testimonial-card">
+                <div class="quote">«Спустя 4 месяца упорных тренировок и дисциплины по питанию набрал 9 кг. Спасибо команде Грани за мотивацию!»</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">КК</div>
+                    <div><strong>Константин К.</strong><br><span style="color: var(--primary);">минус 25 кг</span></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote">«Все будут на меня смотреть, я толстая... так думала я. Но тренер Юля доказала обратное. Результат — минус 14 см в талии!»</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">ЕК</div>
+                    <div><strong>Елена К.</strong><br><span style="color: var(--primary);">талия -14 см</span></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote">«Программа чудесная. За короткий период результат более чем порадовал. Понял базу, как все работает. Рекомендую!»</div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">ДМ</div>
+                    <div><strong>Дмитрий</strong><br><span style="color: var(--primary);">рекомпозиция</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 80px 0;">
+            <h2 class="section-title reveal">Часто задаваемые <span>вопросы</span></h2>
+            <div class="faq-grid reveal">
+                <div class="faq-item"><div class="faq-q">Для кого подойдет?</div> Программы для любого уровня подготовки — от новичка до профи.</div>
+                <div class="faq-item"><div class="faq-q">Есть ли программы для девушек?</div> Да, у нас работают лучшие тренеры города.</div>
+                <div class="faq-item"><div class="faq-q">На сколько рассчитана программа?</div> Тренировки по подписке — каждый месяц новый цикл. Занимайтесь постоянно, без привыкания и плато.</div>
+                <div class="faq-item"><div class="faq-q">Что делать, если непонятно?</div> Первый месяц после покупки — полная поддержка тренера.</div>
+            </div>
+        </div>
+
+        <div style="margin: 80px 0;" id="pricing-section">
+            <h2 class="section-title reveal" style="text-align: center;">Сколько <span>стоит?</span></h2>
+            <div class="pricing-center reveal">
+                <div class="price-card featured" id="priceCard">
+                    <h3>Индивидуальный план тренировок</h3>
+                    <div class="price">4 000₽</div>
+                    <p>Подробный план тренировок и питания с обновлением каждый месяц</p>
+                    
+                    <div id="emailSection">
+                        <input type="email" class="email-input" placeholder="Введите ваш email" id="purchaseEmail" autocomplete="email">
+                        <div class="email-error-msg" id="emailError"></div>
+                        <a href="#" class="btn-solid btn" style="width: 100%;" id="purchaseBtn">Купить</a>
+                    </div>
+
+                    <div class="payment-notice" id="paymentNotice">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Email подтверждён: <span class="email-sent" id="confirmedEmail"></span></p>
+                        <p style="font-size: 14px; color: var(--text-secondary);">После оплаты программа придёт на вашу почту в течение 7 дней</p>
+                        <a href="https://grani.fitness/lk/?club_id=394fd471-c519-11ef-ad2f-00155d008706&getShopFormAuth=Y&id=21535dd6-2e97-11f1-ad6c-00155d000901" class="btn-success btn" style="width: 100%; margin-top: 8px;" id="paymentLinkBtn" target="_blank">
+                            <i class="fas fa-lock" style="margin-right: 8px;"></i> Перейти к оплате
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <img src="https://grani.fitness/themes/img/logo.png" alt="Грани" style="height: 40px;">
+            <div>
+                <p>г. Сыктывкар, ул. Станционная, 152<br>Пн–Пт 07:00-23:00 / Сб–Вс 09:00-22:00</p>
+            </div>
+            <div>
+                <a href="https://vk.com/granifitness" style="color: var(--primary); margin-left: 20px;"><i class="fab fa-vk"></i> ВКонтакте</a>
+                <a href="https://grani.fitness/" style="color: var(--primary); margin-left: 20px;"><i class="fas fa-globe"></i> Сайт</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    (function() {
+        var reveals = document.querySelectorAll('.reveal');
+        
+        function revealCheck() {
+            for (var i = 0; i < reveals.length; i++) {
+                var el = reveals[i];
+                var windowHeight = window.innerHeight;
+                var revealTop = el.getBoundingClientRect().top;
+                var revealPoint = 100;
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', revealCheck);
+        window.addEventListener('load', revealCheck);
+        revealCheck();
+
+        var tabs = document.querySelectorAll('.step-tab');
+        var content = document.getElementById('stepContent');
+        
+        var stepTexts = {
+            1: '<h3>Сделайте оплату на сайте</h3><p>Перейдите по ссылке онлайн оплаты. Выберите тариф и завершите платеж.</p>',
+            2: '<h3>Заполните анкету</h3><p>Укажите вес, рост, цели, наличие противопоказаний, стаж тренировок. Это нужно для персонального плана.</p>',
+            3: '<h3>Подготовка программы</h3><p>Тренер составляет индивидуальный план в течение 7 дней, учитывая все нюансы вашего тела и графика.</p>',
+            4: '<h3>Начинай тренироваться</h3><p>Ты получаешь доступ в приложение или файл с программой тренировок и питания. Можно начинать!</p>'
+        };
+        
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                this.classList.add('active');
+                var step = this.dataset.step;
+                content.innerHTML = stepTexts[step];
+            });
+        });
+
+        var lastScroll = 0;
+        var header = document.querySelector('header');
+        window.addEventListener('scroll', function() {
+            var currentScroll = window.pageYOffset;
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.85)';
+            }
+            lastScroll = currentScroll;
+        });
+
+        var statNums = document.querySelectorAll('.stat-num');
+        var animateValue = function(el, start, end, duration) {
+            var startTimestamp = null;
+            var step = function(timestamp) {
+                if (!startTimestamp) startTimestamp = timestamp;
+                var progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                el.innerHTML = Math.floor(progress * (end - start) + start) + (el.innerHTML.includes('+') ? '+' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    if (el.classList.contains('stat-num') && !el.classList.contains('counted')) {
+                        el.classList.add('counted');
+                        var endValue = 0;
+                        if (el.innerText.includes('12')) endValue = 12;
+                        else if (el.innerText.includes('2000')) endValue = 2000;
+                        animateValue(el, 0, endValue, 1500);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        statNums.forEach(function(num) { observer.observe(num); });
+
+        var whyListItems = document.querySelectorAll('#whyList li');
+        var whyObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var allItems = document.querySelectorAll('#whyList li');
+                    allItems.forEach(function(item, i) {
+                        setTimeout(function() {
+                            item.classList.add('visible');
+                        }, i * 120);
+                    });
+                    whyObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        if (whyListItems.length > 0) {
+            whyObserver.observe(document.getElementById('whyList'));
+        }
+
+        var purchaseEmail = document.getElementById('purchaseEmail');
+        var purchaseBtn = document.getElementById('purchaseBtn');
+        var emailError = document.getElementById('emailError');
+        var emailSection = document.getElementById('emailSection');
+        var paymentNotice = document.getElementById('paymentNotice');
+        var confirmedEmail = document.getElementById('confirmedEmail');
+        var headerBuyBtn = document.getElementById('headerBuyBtn');
+
+        function isValidEmail(email) {
+            if (!email || email.indexOf('@') === -1) return false;
+            var domain = email.split('@')[1];
+            if (!domain) return false;
+            var hasDot = domain.indexOf('.') !== -1;
+            if (!hasDot) return false;
+            var parts = domain.split('.');
+            var tld = parts[parts.length - 1];
+            if (!tld || tld.length < 2) return false;
+            return true;
+        }
+
+        function showError(msg) {
+            emailError.textContent = msg;
+            emailError.classList.add('visible');
+            purchaseEmail.classList.add('error');
+            setTimeout(function() {
+                purchaseEmail.classList.remove('error');
+            }, 500);
+        }
+
+        function hideError() {
+            emailError.classList.remove('visible');
+            purchaseEmail.classList.remove('error');
+        }
+
+        function showPaymentNotice(email) {
+            confirmedEmail.textContent = email;
+            emailSection.style.display = 'none';
+            paymentNotice.classList.add('visible');
+            
+            var purchases = JSON.parse(localStorage.getItem('grani_purchases') || '[]');
+            purchases.push({
+                email: email,
+                date: new Date().toISOString(),
+                status: 'pending_payment'
+            });
+            localStorage.setItem('grani_purchases', JSON.stringify(purchases));
+        }
+
+        purchaseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideError();
+            
+            var email = purchaseEmail.value.trim();
+            
+            if (!email) {
+                showError('Введите email');
+                purchaseEmail.focus();
+                return;
+            }
+            
+            if (email.indexOf('@') === -1) {
+                showError('Email должен содержать @');
+                purchaseEmail.focus();
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showError('Введите корректный email (например: name@mail.ru, name@gmail.com)');
+                purchaseEmail.focus();
+                return;
+            }
+            
+            purchaseEmail.classList.add('success');
+            
+            fetch('https://formspree.io/f/mbdbnpny', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    date: new Date().toISOString(),
+                    page: 'Индивидуальный план тренировок'
+                })
+            }).then(function() {
+                console.log('Заявка отправлена');
+            }).catch(function() {
+                console.log('Ошибка отправки');
+            });
+            
+            showPaymentNotice(email);
+        });
+
+        purchaseEmail.addEventListener('input', function() {
+            hideError();
+            purchaseEmail.classList.remove('success');
+        });
+
+        purchaseEmail.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                purchaseBtn.click();
+            }
+        });
+
+        headerBuyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = document.getElementById('pricing-section');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(function() {
+                    purchaseEmail.focus();
+                }, 600);
+            }
+        });
+
+        var phoneScreen = document.getElementById('phoneScreen');
+        var phoneDots = document.querySelectorAll('#phoneDots .phone-dot');
+        
+        if (phoneScreen) {
+            phoneScreen.addEventListener('scroll', function() {
+                var scrollTop = phoneScreen.scrollTop;
+                var slideHeight = phoneScreen.clientHeight;
+                var activeIndex = Math.round(scrollTop / slideHeight);
+                
+                phoneDots.forEach(function(dot, i) {
+                    dot.classList.toggle('active', i === activeIndex);
+                });
+            });
+        }
+        
+    })();
+</script>
+</body>
+</html>
